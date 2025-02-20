@@ -1,31 +1,20 @@
-# Streamlitライブラリをインポート
-import streamlit as st
+import barcode
+from barcode.writer import ImageWriter
+from io import BytesIO
+from PIL import Image
 
-# ページ設定（タブに表示されるタイトル、表示幅）
-st.set_page_config(page_title="タイトル", layout="wide")
+def generate_barcode(product_name: str, price: str, identifier: str):
+    """商品情報を埋め込んだバーコードを生成"""
+    data = f"{product_name}:{price}:{identifier}"  # カスタムデータ形式
+    CODE128 = barcode.get_barcode_class('code128')
+    barcode_instance = CODE128(data, writer=ImageWriter())
 
-# タイトルを設定
-st.title('Streamlitのサンプルアプリ')
+    buffer = BytesIO()
+    barcode_instance.write(buffer)
+    buffer.seek(0)
+    return Image.open(buffer), data  # 画像と埋め込んだデータを返す
 
-# テキスト入力ボックスを作成し、ユーザーからの入力を受け取る
-user_input = st.text_input('あなたの名前を入力してください')
-
-# ボタンを作成し、クリックされたらメッセージを表示
-if st.button('挨拶する'):
-    if user_input:  # 名前が入力されているかチェック
-        st.success(f'🌟 こんにちは、{user_input}さん! 🌟')  # メッセージをハイライト
-    else:
-        st.error('名前を入力してください。')  # エラーメッセージを表示
-
-# スライダーを作成し、値を選択
-number = st.slider('好きな数字（10進数）を選んでください', 0, 100)
-
-# 補足メッセージ
-st.caption("十字キー（左右）でも調整できます。")
-
-# 選択した数字を表示
-st.write(f'あなたが選んだ数字は「{number}」です。')
-
-# 選択した数値を2進数に変換
-binary_representation = bin(number)[2:]  # 'bin'関数で2進数に変換し、先頭の'0b'を取り除く
-st.info(f'🔢 10進数の「{number}」を2進数で表現すると「{binary_representation}」になります。 🔢')  # 2進数の表示をハイライト
+# 例
+barcode_image, barcode_data = generate_barcode("Apple", "150", "123456789012")
+barcode_image.show()
+print("埋め込まれたデータ:", barcode_data)

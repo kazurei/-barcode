@@ -34,7 +34,7 @@
 #        file_name="barcode.png",
 #        mime="image/png"
 #    )
-
+import streamlit as st
 from barcode import Code128
 from barcode.writer import ImageWriter
 from PIL import Image

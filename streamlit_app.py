@@ -35,18 +35,26 @@
 #        mime="image/png"
 #    )
 import streamlit as st
+from io import BytesIO
 from barcode import Code128
 from barcode.writer import ImageWriter
 from PIL import Image
 
-# バーコードに情報を埋め込む（"Hello123"）
+# バーコードに埋め込む情報
 barcode_data = "Hello123"
+
+# メモリ上にバーコードを作成（PNG）
+buffer = BytesIO()
 barcode = Code128(barcode_data, writer=ImageWriter())
+barcode.write(buffer)
 
-# バーコードを保存（PNG形式）
-filename = barcode.save("barcode_with_text")
+# バッファを画像として開く
+buffer.seek(0)
+image = Image.open(buffer)
 
-# 画像を開いて表示
-image = Image.open(f"{filename}.png")
+# 画像を表示
 image.show()
+
+# 画像を保存（必要なら）
+image.save("barcode_with_text.png")
 

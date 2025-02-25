@@ -1,8 +1,8 @@
-import streamlit as st
-from io import BytesIO
-from barcode import Code128
-from barcode.writer import ImageWriter
-from PIL import Image,ImageDraw, ImageFont
+#import streamlit as st
+#from io import BytesIO
+#from barcode import Code128
+#from barcode.writer import ImageWriter
+#from PIL import Image,ImageDraw, ImageFont
 
 ## タイトル
 #st.title("Streamlit でバーコードを生成")
@@ -37,12 +37,16 @@ from PIL import Image,ImageDraw, ImageFont
 
 from barcode import Code128
 from barcode.writer import ImageWriter
+from PIL import Image
 
 # バーコードに情報を埋め込む（"Hello123"）
 barcode_data = "Hello123"
 barcode = Code128(barcode_data, writer=ImageWriter())
 
-# バーコードを保存
-barcode.save("barcode_with_text")
+# バーコードを保存（PNG形式）
+filename = barcode.save("barcode_with_text")
 
+# 画像を開いて表示
+image = Image.open(f"{filename}.png")
+image.show()
 

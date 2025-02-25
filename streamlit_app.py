@@ -1,2 +1,3 @@
 import streamlit as st
-import barcode from 
+from barcode import code128
+from barcode.writer import ImageWriter

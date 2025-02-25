@@ -35,28 +35,14 @@ from PIL import Image,ImageDraw, ImageFont
 #        mime="image/png"
 #    )
 
-st.title("バーコード生成アプリ")
+from barcode import Code128
+from barcode.writer import ImageWriter
 
-# 入力欄
-barcode_text = st.text_input("バーコードに埋め込む情報", "Hello123")
+# バーコードに情報を埋め込む（"Hello123"）
+barcode_data = "Hello123"
+barcode = Code128(barcode_data, writer=ImageWriter())
 
-def generate_barcode(text):
-    buffer = BytesIO()
-    barcode = Code128(text, writer=ImageWriter())
-    barcode.write(buffer)
-    buffer.seek(0)
-    return buffer
+# バーコードを保存
+barcode.save("barcode_with_text")
 
-if st.button("バーコードを作成"):
-    barcode_image = generate_barcode(barcode_text)
-    image = Image.open(barcode_image)
-
-    # バーコードの下にテキストを追加
-    draw = ImageDraw.Draw(image)
-    font = ImageFont.load_default()
-    draw.text((10, image.height - 20), barcode_text, fill="black", font=font)
-
-    # 表示 & ダウンロード
-    st.image(image, caption="バーコード", use_column_width=True)
-    st.download_button("バーコードをダウンロード", barcode_image, file_name="barcode.png", mime="image/png")
 

@@ -34,11 +34,6 @@ from PIL import Image,ImageDraw, ImageFont
 #        file_name="barcode.png",
 #        mime="image/png"
 #    )
- import streamlit as st
-from io import BytesIO
-from barcode import Code128
-from barcode.writer import ImageWriter
-from PIL import Image, ImageDraw, ImageFont
 
 st.title("バーコード生成アプリ")
 

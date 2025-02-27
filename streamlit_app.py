@@ -8,7 +8,7 @@ st.title("Streamlit でバーコードを生成")
 
 # ユーザー入力
 barcode_text = st.text_input("バーコードの内容を入力してください")
-barcode_date = st.text_input("バーコード内のデータ")
+#barcode_date = st.text_input("バーコード内のデータ")
 
 # バーコード生成関数
 def generate_barcode(text):

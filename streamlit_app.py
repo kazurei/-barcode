@@ -12,7 +12,6 @@ barcode_text = st.text_input("バーコードの内容を入力してくださ�
 
 # バーコード生成関数
 def generate_barcode(text):
-    text = st.text_input("内容")
     buffer = BytesIO()
     barcode = Code128(text, writer=ImageWriter())
     barcode.write(buffer)
